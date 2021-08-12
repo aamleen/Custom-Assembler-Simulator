@@ -1,7 +1,7 @@
 ## incoding
 ## [opcode , no. of register ,imm value ,mem addrs, type ]
 ## cant take upcode as key cuz we have 2 mov commands but with different arguments
-## hey 
+## hey yash
 dc = {00000 : [ "add", 3, 0 ,"A"] ,
 1  : ["sub" , 3 , 0 ,0,"A"] ,
 10 : ["mov" , 1 , 1 ,0,"B"],
