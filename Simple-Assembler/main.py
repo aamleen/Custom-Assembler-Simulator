@@ -1,21 +1,17 @@
 from sys import stdin
 #dlaihfbndfb
-def check_opcode(dict,str):
-    a=2
-
-def firstrun(str):
-    if (str[1] in opcode.keys()):
-        a=3
-    elif (str[0] == 'var'):
-        var()
-    elif (str[0]==)
-
-
+#take input, then pass it in first run func. If it returns o. go for 2nd run to convert, else print error
 
 
 def main():
     for line in stdin:
         if line=='':
             break
-        str=input.split()
-        str[-1]
+        st=input.split()
+        check = first_run(st) ;
+        if (check==0) {
+            getbinary_code(#some parameters)
+        }
+        else 
+            pass ;
+        st[-1]

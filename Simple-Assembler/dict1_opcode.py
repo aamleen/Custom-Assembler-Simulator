@@ -8,16 +8,28 @@ op_ind = ""
 ##A list which stores a two element list of opcode nd the key binding
 list_of_upcodesandtype = []
 
-##Function that checks the opcode, str is [add, r1 ,r2 ,r3]
-def checkopcode(str,linenum): #[add, r1 ,r2 ,r3]
+##Function that checks the opcode, st is [add, r1 ,r2 ,r3]
+def checkopcode(st,linenum): #[add, r1 ,r2 ,r3]
     for x in opcode:
         #If instruction is matching eg. add
-        if (opcode[x][0]==str[0]):
-            if(len(str)==1):
+        if (opcode[x][0]==st[0]):    
+            if(len(st)==1):
                 return True            
-            op_ind=x    #op_ind = "00000"
-            res=checkbinding(str,opcode[x][4],linenum) 
-            list_of_upcodesandtype.append([x , opcode[x][4]])
+            
+            bind=opcode[x][4]
+            if(st[0]=="mov"):
+                st[-1] in registers
+                x="00011"
+                bind="C"
+            else:
+                x="00010"
+                bind="B"
+            res=checkbinding(st,bind,linenum)
+            st=st[1:]
+            st=st.insert(0,x)
+            st=st.append(linenum)
+            st=st.append(bind) 
+            list_of_upcodesandtype.append(st)
             #True ->no errors in instructions
             #False ->Error found and printed
             return res
@@ -29,60 +41,58 @@ def checkopcode(str,linenum): #[add, r1 ,r2 ,r3]
 registers=["R0" ,"R1" , "R2" , "R3" , "R4" , "R4" , "R5" , "R6" , "R7" ]
 
 ##A function that checks binding
-def checkbinding(str,x,linenum): #str -> [add, r1 ,r2 ,r3] x -> "A"
+def checkbinding(st,x,linenum): #st -> [add, r1 ,r2 ,r3] x -> "A"
     flag = 0 
     enc=encoding[x]
     #enc -> [1,1,1] where 1 for register  , -1 for mem adddress , 0 for immediate value
     # if the instruction matches its type (A,B,C...)
-    if(len(str)-1==len(enc)):
+    if(len(st)-1==len(enc)):
         for i in range(enc):  #i goes from 0 to max 2  
             #Check for valid register            
             if(enc[i]==1):  
                 #if register
-                if(str[i+1]=="FLAGS"):
-                    if(str[0]=="mov" and i==(len(enc)-1)):
+                if(st[i+1]=="FLAGS"):
+                    if(st[0]=="mov" and i==(len(enc)-1)):
                         continue
                     else:
-                        #ERROR: Use of FLAGS register is prohibited at the required place
-                         error(4,linenum) 
+                        #ERROR: 
+                        print("ERROR at line",linenum,": Use of FLAGS register is prohibited at the required place") 
                         flag=1
                         break
-                if(str[i+1] in registers):  
+                if(st[i+1] in registers):  
                     #if valid register
                     continue
                 else:
-                    #2->illegal register name 
+                    #2->Illegal register name 
                     #ERROR: Not a valid register
-                    error(2,linenum) 
+                    print("ERROR at line",linenum,": Illegal register name ")
                     flag=1
                     break                 
 
             #Check for valid immediate value        
             elif(enc[i]==0): 
                 #if immediate value starts with $  
-                if(str[i+1][0]=='$'):   
+                if(st[i+1][0]=='$'):   
                     #if immediate value is int
-                    if(str[i+1][1:].isdigit):
+                    if(st[i+1][1:].isdigit):
                         #if value in range
-                        if(0<=int(str[i+1])<=255):
+                        if(0<=int(st[i+1])<=255):
                             continue
                             #valid
                         else:
-                            #Value not in range
-                            #ERROR: 5-> immediate value out of range
-                            error(5,linenum) 
+                            #ERROR: 
+                            print("ERROR at line",linenum,": Immediate value out of range ")
                             flag = 1
                             break 
                     else:
-                        #Immediate Value not integer
-                        error(12,linenum) 
+                        #ERROR:
+                        print("ERROR at line",linenum,": Immediate Value is not an integer ")
                         flag =1 
                         break 
 
                 else:
-                    #Value should start with $
-                    #ERROR: 11 -> "Illegal Symbol used for Immediate Value (not a $)
-                    error(11,linenum) 
+                    #ERROR:
+                    print("ERROR at line",linenum,": Illegal Symbol used for Immediate Value (not a $) ")
                     flag = 1
                     break 
             
@@ -92,8 +102,8 @@ def checkbinding(str,x,linenum): #str -> [add, r1 ,r2 ,r3] x -> "A"
                 continue
 
     else:
-        #ERROR: Invalid statement - exceeded number of registers or invalid syntax for a register 
-        error(10,linenum)
+        #ERROR: 
+        print("ERROR at line",linenum,": Invalid statement - exceeded number of registers or invalid syntax for a register ")
         flag =1 
     
     #Check if there are errors or not
