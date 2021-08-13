@@ -147,7 +147,7 @@ encoding = { "A": [1,1,1],
 }
 
 
-
+# dic for register addresses
 reg_address = {
     "R0": "000",
     "R1": "001",

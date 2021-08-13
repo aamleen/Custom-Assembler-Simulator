@@ -1,4 +1,4 @@
-
+import check_bind_opcode
 var_label={}    #stores variable name, labels
 def first_run(prog_in):
     last_line=prog_in[-1].split() #Lastline to check halt
@@ -24,7 +24,7 @@ def first_run(prog_in):
                                 print("ERROR at line",i,": Label/Variable exists with same name")
                                 flag=1
                                 break
-                            var_label[line[1]]=["variable",i,bin(i)]    
+                            var_label[line[1]]=["variable",i,str(bin(i+len(prog_in)-1))[2:]]    
                             
                         else:
                             #ERROR: variable in between
@@ -50,7 +50,7 @@ def first_run(prog_in):
                         print("ERROR at line",i,": Label/Variable exists with same name")
                         flag=1
                         break
-                    var_label[line[0]]=["label",i,bin(i)]   #convert to 8 bits
+                    var_label[line[0]]=["label",i,str(bin(i))[2:]]   #convert to 8 bits
                     if(checkopcode(line[1:]),i):        #checks if instruction given at label is correct
                         continue
                     else:
