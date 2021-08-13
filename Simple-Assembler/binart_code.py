@@ -45,22 +45,18 @@ def get_8bit(numstr): # 1001 into 00001001
 def getbinary_code(list_of_upcodesandtype , str , var_label):
     for i in range(len(list_of_upcodesandtype)):
         if list_of_upcodesandtype[i][1]=="A":
-            
             binarycode_out.append([ list_of_upcodesandtype[i][0],"00",reg_address[str[i][1]],reg_address[str[i][2]],reg_address[str[i][3]]])
+        
         if list_of_upcodesandtype[i][1]=="B":
-          
             binarycode_out.append([ list_of_upcodesandtype[i][0],reg_address[str[i][1]], get_8bitformat(str[i][2])  ]) 
-
 
         if list_of_upcodesandtype[i][1]=="C":
             binarycode_out.append([ list_of_upcodesandtype[i][0],"00000",reg_address[str[i][2]],reg_address[str[i][3]]])
+        
         if list_of_upcodesandtype[i][1]=="D":
-
-
             binarycode_out.append([ list_of_upcodesandtype[i][0],reg_address[str[i][2]], get_8digit(var_label[str[i][2]][1]) ] )
 
         if list_of_upcodesandtype[i][1]=="E":
-            
             binarycode_out.append([ list_of_upcodesandtype[i][0],"000", get_8digit(var_label[str[i][2]][1]) ])
 
         if list_of_upcodesandtype[i][1]=="F":

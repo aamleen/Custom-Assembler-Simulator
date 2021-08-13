@@ -13,9 +13,11 @@ def checkopcode(str,linenum): #[add, r1 ,r2 ,r3]
     for x in opcode:
         #If instruction is matching eg. add
         if (opcode[x][0]==str[0]):
+            if(len(str)==1):
+                return True            
             op_ind=x    #op_ind = "00000"
             res=checkbinding(str,opcode[x][4],linenum) 
-            list_of_upcodesandtype.append( [x , opcode[x][4]])
+            list_of_upcodesandtype.append([x , opcode[x][4]])
             #True ->no errors in instructions
             #False ->Error found and printed
             return res
@@ -37,6 +39,13 @@ def checkbinding(str,x,linenum): #str -> [add, r1 ,r2 ,r3] x -> "A"
             #Check for valid register            
             if(enc[i]==1):  
                 #if register
+                if(str[i+1]=="FLAGS"):
+                    if(str[0]=="mov" and i==(len(enc)-1)):
+                        continue
+                    else:
+                        flag=1
+                        #ERROR: Use of FLAGS register is prohibited at the required place
+                        break
                 if(str[i+1] in registers):  
                     #if valid register
                     continue
