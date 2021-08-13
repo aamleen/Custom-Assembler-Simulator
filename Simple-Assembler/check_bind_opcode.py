@@ -18,24 +18,26 @@ def checkopcode(st,linenum): #[add, r1 ,r2 ,r3]
             
             bind=opcode[x][4]
             if(st[0]=="mov"):
-                st[-1] in registers
-                x="00011"
-                bind="C"
-            else:
-                x="00010"
-                bind="B"
+                if(st[-1] in registers):
+                    x="00011"
+                    bind="C"
+                else:
+                    x="00010"
+                    bind="B"
+            
             res=checkbinding(st,bind,linenum)
             st=st[1:]
-            st=st.insert(0,x)
-            st=st.append(linenum)
-            st=st.append(bind) 
+            
+            st.insert(0,x)
+            
+            st.append(linenum)
+            st.append(bind) 
             list_of_upcodesandtype.append(st)
             #True ->no errors in instructions
             #False ->Error found and printed
             return res
-        else:   
-            #instruction is not an opcode
-            return False
+        
+    return False
 
 ##A list storing the valid names of registers            
 registers=["R0" ,"R1" , "R2" , "R3" , "R4" , "R4" , "R5" , "R6" , "R7" ]
@@ -47,7 +49,7 @@ def checkbinding(st,x,linenum): #st -> [add, r1 ,r2 ,r3] x -> "A"
     #enc -> [1,1,1] where 1 for register  , -1 for mem adddress , 0 for immediate value
     # if the instruction matches its type (A,B,C...)
     if(len(st)-1==len(enc)):
-        for i in range(enc):  #i goes from 0 to max 2  
+        for i in range(len(enc)):  #i goes from 0 to max 2  
             #Check for valid register            
             if(enc[i]==1):  
                 #if register
@@ -76,7 +78,7 @@ def checkbinding(st,x,linenum): #st -> [add, r1 ,r2 ,r3] x -> "A"
                     #if immediate value is int
                     if(st[i+1][1:].isdigit):
                         #if value in range
-                        if(0<=int(st[i+1])<=255):
+                        if(0<=int(st[i+1][1:])<=255):
                             continue
                             #valid
                         else:
@@ -133,7 +135,6 @@ opcode = {"00000" : [ "add", 3, 0 ,0,"A"] ,
 "10000" : ["jlt" , 0 , 0 , 1 , "E"],
 "10001" : ["jgt" , 0 , 0 , 1 , "E"],
 "10010" : ["je" , 0 , 0 , 1 , "E"],
-"10011" : ["hlt" , 0 , 0 , 0 , "F"],
 }
 
 

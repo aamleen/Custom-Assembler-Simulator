@@ -56,8 +56,9 @@ def getbinary_code(var_label,list_of_upcodesandtype):
             binarycode_out.append([ list_of_upcodesandtype[i][0],"00000",reg_address[list_of_upcodesandtype[i][1]],reg_address[list_of_upcodesandtype[i][2]]])
         
         if list_of_upcodesandtype[i][-1]=="D":
-            if(list_of_upcodesandtype[2] in var_label):
-                bin_var=get_8bit(var_label[list_of_upcodesandtype[2]][2])
+            
+            if(list_of_upcodesandtype[i][2] in var_label):
+                bin_var=get_8bit(var_label[list_of_upcodesandtype[i][2]][2])
                 if(bin_var!=None):
                     binarycode_out.append([ list_of_upcodesandtype[i][0],reg_address[list_of_upcodesandtype[i][1]], bin_var ] )
                 else: 
@@ -82,7 +83,7 @@ def getbinary_code(var_label,list_of_upcodesandtype):
                 break
             
         if list_of_upcodesandtype[i][-1]=="F":
-            binarycode_out.append(list_of_upcodesandtype[i][0],"00000000000")
+            binarycode_out.append([list_of_upcodesandtype[i][0],"00000000000"])
     
     return binarycode_out
 

@@ -1,6 +1,6 @@
-import check_bind_opcode
+import check_bind_opcode as f1
 var_label={}    #stores variable name, labels
-def first_run(prog_in):
+def first_ru(prog_in):
     last_line=prog_in[-1].split() #Lastline to check halt
     flag=0  #Flag to point if any error
     if(last_line[0]=="hlt"):
@@ -11,10 +11,11 @@ def first_run(prog_in):
             flag_var=0      #to check if var is not present in b/w
             for i in range(len(prog_in)-1):     #Runs till 2nd last line
                 line=prog_in[i].split()
+                print(line)
                 if(line[0]=="var"):
                     if(len(line)==2):
                         if(flag_var==0):
-                            if(checkopcode(line[1],i)):
+                            if(f1.checkopcode(line[1],i)):
                                 #ERROR: Variable name is an opcode
                                 print("ERROR at line",i,": Variable name is an opcode")
                                 flag=1
@@ -40,7 +41,7 @@ def first_run(prog_in):
 
                 elif(line[0][-1]==':'):  
                     flag_var=1
-                    if(checkopcode(line[0][:-1],i)):
+                    if(f1.checkopcode(line[0][:-1],i)):
                         #ERROR: Label name is opcode
                         print("ERROR at line",i,": Label name is opcode")
                         flag=1
@@ -51,14 +52,14 @@ def first_run(prog_in):
                         flag=1
                         break
                     var_label[line[0]]=["label",i,str(bin(i))[2:]]   #convert to 8 bits
-                    if(checkopcode(line[1:]),i):        #checks if instruction given at label is correct
+                    if(f1.checkopcode(line[1:]),i):        #checks if instruction given at label is correct
                         continue
                     else:
                         #Wrong instruction given at label 
                         print("ERROR at line",i,": Wrong instruction given at label")
                         flag=1
                         break
-                elif(checkopcode(line,i)):  
+                elif(f1.checkopcode(line,i)):  
                     flag_var=1
                     continue
                 elif(line[0]=="hlt"):       #checks if hlt present before last line
@@ -71,7 +72,7 @@ def first_run(prog_in):
                     print("ERROR at line",i,": Error in opcode/label/variable naming")
                     flag=1
                     break
-            list_of_upcodesandtype.append(["10011","F"])
+            f1.list_of_upcodesandtype.append(["10011","F"])
     else:
         print("ERROR at line",i,": Halt operation missing")
         flag=1

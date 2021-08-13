@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Add command to run your program here
+python 3 main.py

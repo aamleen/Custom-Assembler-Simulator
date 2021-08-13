@@ -1,2 +1,4 @@
+l=[["var x"],["add R1 R2 R3"],["hlt"]]
 l=[1,2,3]
-print(''.join(str(i) for i in l))
+x,y,z=l.split()
+print(x,y,z)
