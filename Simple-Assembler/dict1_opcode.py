@@ -43,15 +43,16 @@ def checkbinding(str,x,linenum): #str -> [add, r1 ,r2 ,r3] x -> "A"
                     if(str[0]=="mov" and i==(len(enc)-1)):
                         continue
                     else:
-                        flag=1
                         #ERROR: Use of FLAGS register is prohibited at the required place
+                         error(4,linenum) 
+                        flag=1
                         break
                 if(str[i+1] in registers):  
                     #if valid register
                     continue
                 else:
                     #2->illegal register name 
-                    #Not a valid register
+                    #ERROR: Not a valid register
                     error(2,linenum) 
                     flag=1
                     break                 
@@ -68,7 +69,7 @@ def checkbinding(str,x,linenum): #str -> [add, r1 ,r2 ,r3] x -> "A"
                             #valid
                         else:
                             #Value not in range
-                            #5-> immediate value out of range
+                            #ERROR: 5-> immediate value out of range
                             error(5,linenum) 
                             flag = 1
                             break 
@@ -80,7 +81,7 @@ def checkbinding(str,x,linenum): #str -> [add, r1 ,r2 ,r3] x -> "A"
 
                 else:
                     #Value should start with $
-                    #11 -> "Illegal Symbol used for Immediate Value (not a $)
+                    #ERROR: 11 -> "Illegal Symbol used for Immediate Value (not a $)
                     error(11,linenum) 
                     flag = 1
                     break 
@@ -91,7 +92,7 @@ def checkbinding(str,x,linenum): #str -> [add, r1 ,r2 ,r3] x -> "A"
                 continue
 
     else:
-        #Invalid statement - exceeded number of registers or invalid syntax for a register 
+        #ERROR: Invalid statement - exceeded number of registers or invalid syntax for a register 
         error(10,linenum)
         flag =1 
     
