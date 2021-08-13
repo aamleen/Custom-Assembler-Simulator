@@ -1,5 +1,5 @@
 from sys import stdin
-
+#dlaihfbndfb
 def check_opcode(dict,str):
     a=2
 
