@@ -1,31 +1,20 @@
 import first_run as fr 
 import check_bind_opcode as ck
 import second_run as sr
+import sys
 
 #take input, then pass it in first run func. If it returns 0. go for 2nd run to convert, else print error
 
 
-def printit(prog_out):  # function to print upcodes 10  
+def printit(prog_out):  # function to print final output  
     for x in prog_out:
         print(''.join(str(i) for i in x))
 
+prog_in=[]
+for line in sys.stdin:
+   prog_in.append(str(line))
 
-prog_in=["var abc","var cde", "var xyz"]
-for i in range(4,118):
-    prog_in.append("add R0 R1 R2")
-prog_in.append("label4: add R0 R1 R2")
-for i in range(119,156):
-    prog_in.append("add R0 R1 R2")
-prog_in.append("label3: add R0 R1 R2")
-for i in range(157,190):
-    prog_in.append("add R0 R1 R2")
-prog_in.append("label2: add R0 R1 R2")
-for i in range(191,243):
-    prog_in.append("add R0 R1 R2")
-prog_in.append("label: add R0 R1 R2")
-for i in range(244,256):
-    prog_in.append("add R0 R1 R2")
-prog_in.append("hlt")
+#prog_in=["var x","mov R1 $4","mov R2 $4", "cmp R1 R2", "mov R3 FLAGS", "mov R4 $1", "cmp R3 R4","jgt label","label: hlt"]
 
 check = fr.first_ru(prog_in) 
 if (check==0):

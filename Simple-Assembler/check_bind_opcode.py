@@ -18,29 +18,25 @@ def checkopcode(st,linenum): #[add, r1 ,r2 ,r3]
             
             bind=opcode[x][4]
             if(st[0]=="mov"):
-                if(st[-1] in registers):
+                if(st[-1] in registers or st[-1]=="FLAGS"):
                     x="00011"
                     bind="C"
                 else:
                     x="00010"
                     bind="B"
-            
             res=checkbinding(st,bind,linenum)
             st=st[1:]
-            
             st.insert(0,x)
-            
             st.append(linenum)
             st.append(bind) 
             list_of_upcodesandtype.append(st)
             #True ->no errors in instructions
             #False ->Error found and printed
             return res
-        
     return False
 
 ##A list storing the valid names of registers            
-registers=["R0" ,"R1" , "R2" , "R3" , "R4" , "R4" , "R5" , "R6" , "R7" ]
+registers=["R0" ,"R1" , "R2" , "R3" , "R4" , "R4" , "R5" , "R6" , "R7"]
 
 ##A function that checks binding
 def checkbinding(st,x,linenum): #st -> [add, r1 ,r2 ,r3] x -> "A"
@@ -122,7 +118,7 @@ opcode = {"00000" : [ "add", 3, 0 ,0,"A"] ,
 "00011" : ["mov" , 2 , 0 ,0, "C"],
 "00100" : ["ld" , 1 , 0 , 1, "D"],
 "00101" : ["st", 1 , 0 ,1,"D"],
-"00110" : ["mil" , 3 , 0,0 ,"A"],
+"00110" : ["mul" , 3 , 0,0 ,"A"],
 "00111" : ["div" , 2 , 0 , 0 , "C"],
 "01000" : ["rs" , 1 , 1, 0 , "B"],
 "01001" : ["ls" , 1 , 1 , 0 , "B"],
@@ -146,21 +142,3 @@ encoding = { "A": [1,1,1],
 "E": [-1],
 "F": [],
 }
-
-
-# dic for register addresses
-reg_address = {
-    "R0": "000",
-    "R1": "001",
-    "R2": "010",
-    "R3": "011",
-    "R4": "100",
-    "R5": "101",
-    "R6": "110",
-    "FLAGS": "111",
-}
-
-
-
-
-  
