@@ -11,7 +11,6 @@ def first_ru(prog_in):
             flag_var=0      #to check if var is not present in b/w
             for i in range(len(prog_in)-1):     #Runs till 2nd last line
                 line=prog_in[i].split()
-                print(line)
                 if(line[0]=="var"):
                     if(len(line)==2):
                         if(flag_var==0):
@@ -52,7 +51,7 @@ def first_ru(prog_in):
                         flag=1
                         break
                     var_label[line[0]]=["label",i,str(bin(i))[2:]]   #convert to 8 bits
-                    if(f1.checkopcode(line[1:]),i):        #checks if instruction given at label is correct
+                    if(f1.checkopcode(line[1:],i)):        #checks if instruction given at label is correct
                         continue
                     else:
                         #Wrong instruction given at label 

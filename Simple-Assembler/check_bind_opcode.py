@@ -12,7 +12,7 @@ list_of_upcodesandtype = []
 def checkopcode(st,linenum): #[add, r1 ,r2 ,r3]
     for x in opcode:
         #If instruction is matching eg. add
-        if (opcode[x][0]==st[0]):    
+        if (opcode[x][0]==st[0]):
             if(len(st)==1):
                 return True            
             
@@ -121,9 +121,9 @@ opcode = {"00000" : [ "add", 3, 0 ,0,"A"] ,
 "00010" : ["mov" , 1 , 1 ,0,"B"],
 "00011" : ["mov" , 2 , 0 ,0, "C"],
 "00100" : ["ld" , 1 , 0 , 1, "D"],
-"00101" : ["st ", 1 , 0 ,1,"D"],
+"00101" : ["st", 1 , 0 ,1,"D"],
 "00110" : ["mil" , 3 , 0,0 ,"A"],
-"00111" : ["div " , 2 , 0 , 0 , "C"],
+"00111" : ["div" , 2 , 0 , 0 , "C"],
 "01000" : ["rs" , 1 , 1, 0 , "B"],
 "01001" : ["ls" , 1 , 1 , 0 , "B"],
 "01010" : ["xor" , 3 ,0,0 , "A"],
