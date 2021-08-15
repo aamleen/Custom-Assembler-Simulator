@@ -1,2 +1,2 @@
-ERROR at line 1 GENERAL SYNTAX ERROR: Variable Naming incorrect
+ERROR at line 1 : GENERAL SYNTAX ERROR: Variable name is an opcode
 ------PROGRAM TERMINATED-----

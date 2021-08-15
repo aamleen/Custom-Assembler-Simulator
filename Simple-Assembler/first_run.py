@@ -10,12 +10,14 @@ def first_ru(prog_in):
         if(len(last_line)==1):      #if anything else given with hlt 
             flag=check_error(prog_in)
         elif(len(last_line)==2 and last_line[0][-1]==":"):
-            if(f1.checkopcode(last_line[0][:-1],len(prog_in))):
+            label_name=[]
+            label_name.append(last_line[0][:-1])
+            if(f1.checkopcode(label_name,len(prog_in))):
                 flag=1
-                print("ERROR at line",len(prog_in),"Label name is not authorised")
+                print("ERROR at line",len(prog_in),"Label name is an opcode")
             else:
                 flag=check_error(prog_in)
-                var_label[last_line[0][:-1]]=["label",len(prog_in)-1,str(bin(mem_addr))[2:]]
+                var_label[label_name[0]]=["label",len(prog_in)-1,str(bin(mem_addr))[2:]]
         else:
             print("ERROR at line",(len(prog_in)),": Invalid declaration of hlt")
             flag=1
@@ -40,7 +42,9 @@ def check_error(prog_in):       #checks error from 1st till 2nd last line
         if(line[0]=="var"):
             if(len(line)==2):
                 if(flag_var==0):
-                    if(f1.checkopcode(line[1],i+1)):
+                    var_name=[]
+                    var_name.append(line[1])
+                    if(f1.checkopcode(var_name,i+1)):
                         #ERROR: Variable name is an opcode
                         print("ERROR at line",i+1,": GENERAL SYNTAX ERROR: Variable name is an opcode")
                         flag=1
@@ -64,26 +68,30 @@ def check_error(prog_in):       #checks error from 1st till 2nd last line
             else:
                 #More than 1 variables given
                 #ERROR: Illegal declaration of variable ---------------------okay?
-                print("ERROR at line",i+1,": GENERAL SYNTAX ERROR: More than one variables given")
+                print("ERROR at line",i+1,": GENERAL SYNTAX ERROR: Illegal Declaration of variables")
                 flag=1
                 break
 
         elif(line[0][-1]==':'):  
             flag_var=1
-            if(f1.checkopcode(line[0][:-1],i+1)):
+            label_name=[]
+            label_name.append(line[0][:-1])
+            if(f1.checkopcode(label_name,i+1)):
                 #ERROR: Label name is opcode
                 print("ERROR at line",i+1,": GENERAL SYNTAX ERROR: Label name is opcode")
                 flag=1
                 break
-            if(line[0][:-1] in var_label):
+            if(label_name[0] in var_label):
                 #ERROR: Label/Variable exists with same name
                 print("ERROR at line",i+1,": Label/Variable exists with same name")
                 flag=1
                 break
             if(line[1:] == "hlt" and len(line)==2):
+                flag=1
                 print("ERROR at line",i+1,": hlt not being used as the last instruction")
+                break
             elif(f1.checkopcode(line[1:],i+1)):        #checks if instruction given at label is correct
-                var_label[line[0][:-1]]=["label",i,str(bin(mem_addr))[2:]]
+                var_label[label_name[0]]=["label",i,str(bin(mem_addr))[2:]]
                 mem_addr+=1
                 continue
             else:

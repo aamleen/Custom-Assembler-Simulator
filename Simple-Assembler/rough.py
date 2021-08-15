@@ -1,2 +1,3 @@
-s="   My name\tis         Aamleen         Ahmed\t"
-print(s.split())
+l=[]
+l.append("object")
+print(l)
