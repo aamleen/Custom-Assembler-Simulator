@@ -86,7 +86,7 @@ def check_error(prog_in):       #checks error from 1st till 2nd last line
                 print("ERROR at line",i+1,": Label/Variable exists with same name")
                 flag=1
                 break
-            if(line[1:] == "hlt" and len(line)==2):
+            if(len(line)==2 and line[1] == "hlt"):
                 flag=1
                 print("ERROR at line",i+1,": hlt not being used as the last instruction")
                 break

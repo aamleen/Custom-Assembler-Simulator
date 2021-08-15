@@ -3,7 +3,7 @@ import check_bind_opcode as ck
 import second_run as sr
 import sys
 
-#take input, then pass it in first run func. If it returns 0. go for 2nd run to convert, else print error
+#take input, then pass it in first run func. If it returns 0 no errors found. go for 2nd run to convert, else print error
 
 
 def printit(prog_out):  # function to print final output  
@@ -26,7 +26,7 @@ def main():
     check = fr.first_ru(prog_in) 
     if (check==0):
         res=sr.getbinary_code(fr.var_label,ck.list_of_upcodesandtype)
-        if(res==[-1]):
+        if(res==[-1]):      #if any error while converting the code
             print("------PROGRAM TERMINATED-----")
         else:
             printit(res)
