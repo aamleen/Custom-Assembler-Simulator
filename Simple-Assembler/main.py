@@ -10,20 +10,30 @@ def printit(prog_out):  # function to print final output
     for x in prog_out:
         print(''.join(str(i) for i in x))
 
-prog_in=[]
-for line in sys.stdin:
-   prog_in.append(str(line))
+def main():
+    prog_in=[]
+    for line in sys.stdin:      #takes input from stdin and stores in a list, where each entry(line) is a string 
+        prog_in.append(str(line))
 
-#prog_in=["var x","mov R1 $4","mov R2 $4", "cmp R1 R2", "mov R3 FLAGS", "mov R4 $1", "cmp R3 R4","jgt label","label: hlt"]
+    end_line=0
+    for i in prog_in[::-1]:     #runs the input in reverese order, and removes the empty lines till any instruction is found
+        if(i=='' or i=='\n'):
+            end_line +=1
+        else:
+            break
+    prog_in=prog_in[:len(prog_in)-end_line]     #removes the last empty lines
 
-check = fr.first_ru(prog_in) 
-if (check==0):
-    res=sr.getbinary_code(fr.var_label,ck.list_of_upcodesandtype)
-    if(res==[-1]):
+    check = fr.first_ru(prog_in) 
+    if (check==0):
+        res=sr.getbinary_code(fr.var_label,ck.list_of_upcodesandtype)
+        if(res==[-1]):
+            print("------PROGRAM TERMINATED-----")
+        else:
+            printit(res)
+    else: 
         print("------PROGRAM TERMINATED-----")
-    else:
-        printit(res)
-else: 
-    print("------PROGRAM TERMINATED-----")
+
+if __name__ =="__main__":
+    main()
 
 

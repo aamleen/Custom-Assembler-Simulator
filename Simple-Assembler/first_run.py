@@ -21,7 +21,7 @@ def first_ru(prog_in):
             flag=1
         f1.list_of_upcodesandtype.append(["10011","F"])
     else:
-        print("ERROR at line",len(prog_in),": Halt operation missing")
+        print("ERROR at line",len(prog_in),": Missing hlt instruction")
         flag=1
     if(flag==0):
         var_addr()
@@ -42,25 +42,29 @@ def check_error(prog_in):       #checks error from 1st till 2nd last line
                 if(flag_var==0):
                     if(f1.checkopcode(line[1],i+1)):
                         #ERROR: Variable name is an opcode
-                        print("ERROR at line",i+1,": Variable name is an opcode")
+                        print("ERROR at line",i+1,": GENERAL SYNTAX ERROR: Variable name is an opcode")
                         flag=1
                         break
                     if(line[1] in var_label):
                         #ERROR: Label/Variable exists with same name
-                        print("ERROR at line",i+1,": Label/Variable exists with same name")
+                        print("ERROR at line",i+1,": GENERAL SYNTAX ERROR: Label/Variable exists with same name")
                         flag=1
                         break
-                    var_label[line[1]]=["variable",i,str(bin(len(prog_in)))[2:]]    
-                    
+                    if ((line[1].isdigit()==False) and (line[1].isalnum() or '_' in line[1])):
+                        var_label[line[1]]=["variable",i,str(bin(len(prog_in)))[2:]]
+                    else:
+                        flag=1
+                        print("ERROR at line",i+1,"GENERAL SYNTAX ERROR: Variable Naming incorrect")
+                        break
                 else:
                     #ERROR: variable in between
-                    print("ERROR at line",i+1,": Variable declared in between the code")
+                    print("ERROR at line",i+1,": Variables not declared at the beginning")
                     flag=1
                     break 
             else:
                 #More than 1 variables given
                 #ERROR: Illegal declaration of variable ---------------------okay?
-                print("ERROR at line",i+1,": More than one variables given")
+                print("ERROR at line",i+1,": GENERAL SYNTAX ERROR: More than one variables given")
                 flag=1
                 break
 
@@ -68,7 +72,7 @@ def check_error(prog_in):       #checks error from 1st till 2nd last line
             flag_var=1
             if(f1.checkopcode(line[0][:-1],i+1)):
                 #ERROR: Label name is opcode
-                print("ERROR at line",i+1,": Label name is opcode")
+                print("ERROR at line",i+1,": GENERAL SYNTAX ERROR: Label name is opcode")
                 flag=1
                 break
             if(line[0][:-1] in var_label):
@@ -76,8 +80,9 @@ def check_error(prog_in):       #checks error from 1st till 2nd last line
                 print("ERROR at line",i+1,": Label/Variable exists with same name")
                 flag=1
                 break
-               
-            if(f1.checkopcode(line[1:],i+1)):        #checks if instruction given at label is correct
+            if(line[1:] == "hlt" and len(line)==2):
+                print("ERROR at line",i+1,": hlt not being used as the last instruction")
+            elif(f1.checkopcode(line[1:],i+1)):        #checks if instruction given at label is correct
                 var_label[line[0][:-1]]=["label",i,str(bin(mem_addr))[2:]]
                 mem_addr+=1
                 continue
@@ -92,10 +97,13 @@ def check_error(prog_in):       #checks error from 1st till 2nd last line
             continue
         elif(line[0]=="hlt"):       #checks if hlt present before last line
             #ERROR: halt in between
-            print("ERROR at line",i+1,": halt operation used in between")
+            print("ERROR at line",i+1,": hlt not being used as the last instruction")
             flag=1
             break
         else:
+            if(f1.err_print==1):    #Error has already been printed
+                flag=1
+                break
             #Error in opcode/label/var naming
             print("ERROR at line",i+1,": Error in opcode/label/variable naming")
             flag=1

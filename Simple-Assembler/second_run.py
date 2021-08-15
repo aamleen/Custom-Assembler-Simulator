@@ -10,7 +10,7 @@ reg_address = {
     "FLAGS": "111",
 }   
 
-#-------num $54 , $5 then removing $ sign
+#------->num $54 , then removing $, converting to binary and removing the "2b" from starting
 def get_8bitformat(st0):
     new_st = st0[1:]
     new_bin_st = bin(int(new_st))[2:] 
@@ -48,34 +48,45 @@ def getbinary_code(var_label,list_of_upcodesandtype):
         if list_of_upcodesandtype[i][-1]=="C":
             binarycode_out.append([ list_of_upcodesandtype[i][0],"00000",reg_address[list_of_upcodesandtype[i][1]],reg_address[list_of_upcodesandtype[i][2]]])
         
-        if list_of_upcodesandtype[i][-1]=="D":
-            
-            if(list_of_upcodesandtype[i][2] in var_label):
-                bin_var=get_8bit(var_label[list_of_upcodesandtype[i][2]][2])
-                if(bin_var!=None):
-                    binarycode_out.append([ list_of_upcodesandtype[i][0],reg_address[list_of_upcodesandtype[i][1]], bin_var ] )
-                else: 
-                    print("Overflow in memory address at line",list_of_upcodesandtype[i][2])
+        if list_of_upcodesandtype[i][-1]=="D":      #used only for ld, st
+            var_name=list_of_upcodesandtype[i][2]
+            if(var_name in var_label):
+                if(var_label[var_name][0]=="variable"):     #checking if the mem_addr is a variable or not
+                    bin_var=get_8bit(var_label[list_of_upcodesandtype[i][2]][2])
+                    if(bin_var!=None):
+                        binarycode_out.append([ list_of_upcodesandtype[i][0],reg_address[list_of_upcodesandtype[i][1]], bin_var ] )
+                    else: 
+                        print("Overflow in memory address at line",list_of_upcodesandtype[i][2])
+                else:
+                    binarycode_out=[-1]
+                    print("ERROR at line",list_of_upcodesandtype[i][-2],"Misuse of labels as variable")
+                    break
             else:
                 #ERROR: Use of undefined variables/label 
                 binarycode_out=[-1]
-                print("ERROR at line",list_of_upcodesandtype[i][-2],": Use of undefined variables/label")
+                print("ERROR at line",list_of_upcodesandtype[i][-2],": Use of undefined variables")
                 break
 
-        if list_of_upcodesandtype[i][-1]=="E":
-            if(list_of_upcodesandtype[i][1] in var_label):
-                bin_var=get_8bit(var_label[list_of_upcodesandtype[i][1]][2])
-                if(bin_var!=None):
-                    binarycode_out.append([ list_of_upcodesandtype[i][0],"000", bin_var])
-                else:    
-                    print("Overflow in memory address at line",list_of_upcodesandtype[i][2])
+        if list_of_upcodesandtype[i][-1]=="E":      #used for jump instructions
+            label_name=list_of_upcodesandtype[i][1]
+            if(label_name in var_label):
+                if(var_label[label_name][0]=="label"):      #checking if the mem_addr is a label or not
+                    bin_var=get_8bit(var_label[list_of_upcodesandtype[i][1]][2])
+                    if(bin_var!=None):
+                        binarycode_out.append([ list_of_upcodesandtype[i][0],"000", bin_var])
+                    else:    
+                        print("Overflow in memory address at line",list_of_upcodesandtype[i][2])
+                else:
+                    binarycode_out=[-1]
+                    print("ERROR at line",list_of_upcodesandtype[i][-2],"Misuse of variables as labele")
+                    break
             else:
                 #ERROR: Use of undefined variables/labels 
                 binarycode_out = [-1]
-                print("ERROR at line",list_of_upcodesandtype[i][-2],": Use of undefined variables/labels")
+                print("ERROR at line",list_of_upcodesandtype[i][-2],": Use of undefined labels")
                 break
             
-        if list_of_upcodesandtype[i][-1]=="F":
+        if list_of_upcodesandtype[i][-1]=="F":      #hlt
             binarycode_out.append([list_of_upcodesandtype[i][0],"00000000000"])
     
     return binarycode_out

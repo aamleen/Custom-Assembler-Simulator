@@ -1,0 +1,20 @@
+var 123
+
+ mov R1 R2
+
+mov R1 R2
+mov R1 R2
+
+
+mov R1 R2
+mov R1 R2
+mov R1 FLAGS
+
+
+
+
+
+
+
+hlt
+
