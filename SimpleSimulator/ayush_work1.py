@@ -75,5 +75,14 @@ def operation_xor(line , pc): # and operation taking str as input and updating t
 
     registers[reg_str_xor] = int(registers[reg1_str_xor] ^ registers[reg2_str_xor])
 
+def operation_invert(line ,pc):
+    op = line[:5]
+    
+    reg1_str_in  = line[10:13]
+    reg2_str_in   = line[13:]
+    registers[reg1_str_in] = -registers[reg2_str_in]
+
+
+
 
     
