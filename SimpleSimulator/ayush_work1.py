@@ -51,6 +51,29 @@ def mul(line , pc): # add R1 R2 R3   [type] op[5bit] [2unused] reg[3bit] reg[3bi
 
     registers[reg_str_add] =reg_mul
 
+def operation_and(line , pc): # and operation taking str as input and updating the registers after carrying the and operation
+    op = line[:5]
+    reg_str_and  = line[7:10]
+    reg1_str_and  = line[10:13]
+    reg2_str_and  = line[13:]
+
+    registers[reg_str_and] = int(registers[reg1_str_and] and registers[reg2_str_and])
+
+def operation_or(line , pc): # and operation taking str as input and updating the registers after carrying the or operation
+    op = line[:5]
+    reg_str_or  = line[7:10]
+    reg1_str_or  = line[10:13]
+    reg2_str_or  = line[13:]
+
+    registers[reg_str_or] = int(registers[reg1_str_or] or registers[reg2_str_or])
+
+def operation_xor(line , pc): # and operation taking str as input and updating the registers after carrying the xor operation
+    op = line[:5]
+    reg_str_xor  = line[7:10]
+    reg1_str_xor  = line[10:13]
+    reg2_str_xor  = line[13:]
+
+    registers[reg_str_xor] = int(registers[reg1_str_xor] ^ registers[reg2_str_xor])
 
 
     
