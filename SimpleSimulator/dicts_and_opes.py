@@ -31,6 +31,8 @@ registers = { "000": 0, #r0
 
 def bit_to_int(num):      ## num must be string taking 8 bit number converting into integer
     return int(num,2)
+def int_to_bit(num):     ## pass int value and get its corresponding binary number
+    return bin(num)[2:]
 
 int("001",2)    #1
 #------->num $54 , then removing $, converting to binary and removing the "2b" from starting
