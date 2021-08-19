@@ -1,5 +1,11 @@
 from dicts_and_opes import * 
 vFlag =0
+Gflag =0 # flag of cmp r1 r2 -> 1 if r1 > r2
+Lflag =0 # flag od cmp r1 r2 -> is 1 if r1 < r2
+
+
+
+
 def add(line , pc): # add R1 R2 R3   [type] op[5bit] [2unused] reg[3bit] reg[3bit] reg[3bit]}
     op = line[:5]
     reg_str_add  = line[7:10]              #storing the destination register 
@@ -45,7 +51,7 @@ def mul(line , pc): # add R1 R2 R3   [type] op[5bit] [2unused] reg[3bit] reg[3bi
         bin_mul = str(bin(reg_mul)[2:])
         str2 = bin_mul[-1:-9:-1]
         str3= str2[-1:-9:-1]
-        vFlag = 3 
+        vFlag = 1
         reg_mul = int(str3)
 
 
@@ -81,6 +87,14 @@ def operation_invert(line ,pc):
     reg1_str_in  = line[10:13]
     reg2_str_in   = line[13:]
     registers[reg1_str_in] = -registers[reg2_str_in]
+
+def operation_compare(line ,pc ):
+    reg1_str_in  = line[10:13]
+    reg2_str_in   = line[13:]
+    if registers[reg1_str_in] > registers[reg2_str_in]:
+        Gflag = 1
+    elif registers[reg1_str_in] < registers[reg2_str_in]:
+        Lflag = 1
 
 
 
