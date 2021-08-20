@@ -1,0 +1,4 @@
+g: jmp a
+a: jmp g 
+jmp g
+hlt
