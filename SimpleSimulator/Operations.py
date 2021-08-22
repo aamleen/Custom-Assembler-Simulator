@@ -48,9 +48,9 @@ def calculate(line,pc):     #pc-->int
         pass
     else:
         pass
-    for i in opf.registers:
+    for i in list(opf.registers.keys())[0:7]:
         print(get_nbit(str(bin(opf.registers[i]))[2:],16),end=" ")
-    print()
+    print(get_nbit(str(bin(opf.registers["111"]))[2:],16))
     return pc
 
 def get_nbit(numst,n): # converting 1001 into 00001001 basically completing n-digits 
@@ -60,6 +60,4 @@ def get_nbit(numst,n): # converting 1001 into 00001001 basically completing n-di
         st_fin = st_fin + numst
         return st_fin
     else:
-        FLAGS="0000000000001000"
-        #overflow FLAGS set
         return None
