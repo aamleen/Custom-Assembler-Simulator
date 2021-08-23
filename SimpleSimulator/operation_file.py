@@ -55,7 +55,7 @@ def operation_and(line , pc): # and operation taking str as input and updating t
     reg1_str_and  = line[10:13]
     reg2_str_and  = line[13:16]
 
-    registers[reg_str_and] = int(registers[reg1_str_and] and registers[reg2_str_and])
+    registers[reg_str_and] = int(registers[reg1_str_and] & registers[reg2_str_and])
     registers['111']=0
 
 def operation_or(line , pc): # and operation taking str as input and updating the registers after carrying the or operation
@@ -64,7 +64,7 @@ def operation_or(line , pc): # and operation taking str as input and updating th
     reg1_str_or  = line[10:13]
     reg2_str_or  = line[13:16]
 
-    registers[reg_str_or] = int(registers[reg1_str_or] or registers[reg2_str_or])
+    registers[reg_str_or] = int(registers[reg1_str_or] | registers[reg2_str_or])
     registers['111']=0
 
 def operation_xor(line , pc): # and operation taking str as input and updating the registers after carrying the xor operation
@@ -78,10 +78,9 @@ def operation_xor(line , pc): # and operation taking str as input and updating t
 
 def operation_invert(line ,pc):
     op = line[:5]
-    
     reg1_str_in  = line[10:13]
     reg2_str_in   = line[13:16]
-    registers[reg1_str_in] = -registers[reg2_str_in]
+    registers[reg1_str_in] = ~registers[reg2_str_in]
     registers['111']=0
 
 def operation_compare(line ,pc ):
@@ -176,4 +175,12 @@ def jmp(line,pc):
     registers['111']=0
     return int(line[8:16],2)
 
-
+def get_16bit(num): # converting 1001 into 00001001 basically completing n-digits 
+    numst=str(bin(num))[2:16]
+    st_len = 16-len(numst)
+    if st_len >=0:
+        st_fin = "0"*st_len
+        st_fin = st_fin + numst
+        return st_fin
+    else:
+        return None
