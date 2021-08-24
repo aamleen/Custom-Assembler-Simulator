@@ -2,6 +2,16 @@ registers = {"000":0,"001":0,"010":0,"011":0,"100":0,"101":0,"110":0,"111":0}
 
 var={}      #"mem_addr":value
 
+def get_16bit(num): # converting 1001 into 00001001 basically completing n-digits 
+    numst=str(bin(num))[2:]
+    st_len = 16-len(numst)
+    if st_len >=0:
+        st_fin = "0"*st_len
+        st_fin = st_fin + numst
+        return st_fin
+    else:
+        return None
+
 def add(line , pc): # add R1 R2 R3   [type] op[5bit] [2unused] reg[3bit] reg[3bit] reg[3bit]}
     global registers
     op = line[:5]
@@ -76,11 +86,18 @@ def operation_xor(line , pc): # and operation taking str as input and updating t
     registers[reg_str_xor] = int(registers[reg1_str_xor] ^ registers[reg2_str_xor])
     registers['111']=0
 
-def operation_invert(line ,pc):
+def operation_invert(line, pc):
     op = line[:5]
     reg1_str_in  = line[10:13]
     reg2_str_in   = line[13:16]
-    registers[reg1_str_in] = ~registers[reg2_str_in]
+    x=get_16bit(registers[reg2_str_in])
+    res=''
+    for i in x:
+        if(i=='0'):
+            res+='1'
+        else:
+            res+='0'
+    registers[reg1_str_in] = int(res,2)
     registers['111']=0
 
 def operation_compare(line ,pc ):
@@ -175,12 +192,4 @@ def jmp(line,pc):
     registers['111']=0
     return int(line[8:16],2)
 
-def get_16bit(num): # converting 1001 into 00001001 basically completing n-digits 
-    numst=str(bin(num))[2:16]
-    st_len = 16-len(numst)
-    if st_len >=0:
-        st_fin = "0"*st_len
-        st_fin = st_fin + numst
-        return st_fin
-    else:
-        return None
+
