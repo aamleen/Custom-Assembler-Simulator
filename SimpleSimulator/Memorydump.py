@@ -1,7 +1,7 @@
 def dump(prog_in,var):
     i=len
-    for i in list(var.values()):
-        prog_in.append(get_nbit(str(bin(i))[2:],16))
+    for i in list(sorted(var)):
+        prog_in.append(get_nbit(str(bin(var[i]))[2:],16))
 
     print(*prog_in,sep="\n")
     total_lines=len(prog_in)

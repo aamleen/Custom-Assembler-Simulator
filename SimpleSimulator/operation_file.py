@@ -20,7 +20,7 @@ def add(line , pc): # add R1 R2 R3   [type] op[5bit] [2unused] reg[3bit] reg[3bi
     reg2_str_add  = line[13:16]
     reg_sum = registers[reg1_str_add]+registers[reg2_str_add]
     #print(reg_sum)
-    if reg_sum>255:
+    if reg_sum>65535:
         bin_sum = str(bin(reg_sum))[2:]
         str3 = bin_sum[-8:len(bin_sum)]
         reg_sum = int(str3,2)
@@ -50,7 +50,7 @@ def mul(line , pc): # add R1 R2 R3   [type] op[5bit] [2unused] reg[3bit] reg[3bi
     reg2_str_add  = line[13:16]
     reg_mul = registers[reg1_str_add] * registers[reg2_str_add]
 
-    if (reg_mul>255):
+    if (reg_mul>65535):
         bin_mul = str(bin(reg_mul))[2:]
         str3 = bin_mul[-8:len(bin_mul)]
         registers["111"] = 8
@@ -143,6 +143,7 @@ def load(line , pc ):
     op = line[:5]
     reg  = line[5:8]
     mem_add = line[8:16]
+    mem_add = int(mem_add,2)
     if(var.get(mem_add)==None):
         var[mem_add]=0
     registers[reg] = int(var.get(mem_add))
@@ -152,6 +153,7 @@ def store(line , pc ):
     op = line[:5]
     reg  = line[5:8]
     mem_add = line[8:16]
+    mem_add = int(mem_add,2)
     var[mem_add]   = registers[reg]
     registers['111']=0
     
@@ -159,8 +161,8 @@ def operation_div(line , pc):
     op  = line[:5]
     reg1 = line[10: 13]
     reg2 = line[13:16]
-    registers["000"] = int(reg1/reg2)
-    registers["001"]  = reg1%reg2
+    registers["000"] = int(registers[reg1]/registers[reg2])
+    registers["001"]  = registers[reg1]%registers[reg2]
     registers['111']=0
 
 
