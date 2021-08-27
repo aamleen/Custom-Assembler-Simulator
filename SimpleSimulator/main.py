@@ -38,9 +38,9 @@ def bonus(cyc,mem,line):
 
 def bonus_plot():
     plt.scatter(x_cycle,y_mem)
-    plt.ylabel("cycles ->")
-    plt.xlabel("Memory Address ->")
-    plt.title("Bonus")
+    plt.xlabel("cycles ->")
+    plt.ylabel("Memory Address ->")
+    plt.title("Mem Addr vs Cycle No.")
     plt.savefig("Bonus_Image.png")
 
 if __name__ =="__main__":

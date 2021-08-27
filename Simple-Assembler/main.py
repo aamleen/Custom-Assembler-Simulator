@@ -9,7 +9,7 @@ import sys
 def printit(prog_out):  # function to print final output  
     for x in prog_out:
         print(''.join(str(i) for i in x))
-
+    
 def main():
     prog_in=[]
     for line in sys.stdin:      #takes input from stdin and stores in a list, where each entry(line) is a string 

@@ -104,11 +104,11 @@ def operation_compare(line ,pc ):
     reg1_str_in  = line[10:13]
     reg2_str_in   = line[13:16]
     if registers[reg1_str_in] > registers[reg2_str_in]:
-        registers["111"] = 4
+        registers["111"] = 2  #10
     elif registers[reg1_str_in] < registers[reg2_str_in]:
-        registers["111"] = 8
+        registers["111"] = 4  #100
     else:
-        registers["111"] = 1
+        registers["111"] = 1    #001
 
 #Move immediate function              
 def move_imm(line): #mov reg1 $Imm [Type B] [00010 REG IMM] 

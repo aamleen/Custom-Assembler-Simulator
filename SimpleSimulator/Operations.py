@@ -45,7 +45,7 @@ def calculate(line,pc):     #pc-->int
     elif(opcode=="10010"):
         pc = opf.je(line,pc)
     elif(opcode=="10011"):
-        pass
+        opf.registers['111']=0
     else:
         pass
     for i in list(opf.registers.keys())[0:7]:
